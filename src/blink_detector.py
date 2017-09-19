@@ -146,7 +146,7 @@ def main():
 		# if the eyes are open and previousle were closed
 		# for sufficient number of frames then increcement 
 		# the total blinks
-		if state == 'open' and mem_counter > 2:
+		if state == 'open' and mem_counter > 1:
 			blinks += 1
 		# keep the counter for the next loop 
 		mem_counter = close_counter 
