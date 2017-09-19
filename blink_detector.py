@@ -6,7 +6,7 @@ from scipy.spatial import distance as dist
 from imutils import face_utils
 
 predictor = dlib.shape_predictor("shape_predictor_68_face_landmarks.dat")
-face_cascade = cv2.CascadeClassifier('haarcascade/haarcascade_frontalface_alt.xml')
+face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_alt.xml')
 
 # detect the face rectangle 
 def detect(img, cascade = face_cascade , minimumFeatureSize=(20, 20)):
@@ -111,8 +111,13 @@ def cnnPreprocess(img):
 	return img
 
 def main():
+	# open the camera,load the cnn model 
 	camera = cv2.VideoCapture(0)
-	model = load_model('blinkModel_aug.hdf5')
+	model = load_model('blinkModel.hdf5')
+	
+	# blinks is the number of total blinks ,close_counter
+	# the counter for consecutive close predictions
+	# and mem_counter the counter of the previous loop 
 	close_counter = blinks = mem_counter= 0
 	state = ''
 	while True:
