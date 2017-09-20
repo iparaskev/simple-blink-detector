@@ -71,25 +71,27 @@ def cropEyes(frame):
 	# so we add the half of the difference at x and y
 	# axis from the width at height respectively left-right
 	# and up-down 
-	minxl = int(round(leftEye[0][0] - ((34-lw)/2)))
-	maxxl = int(round(leftEye[3][0] + ((34-lw)/2))) 
-	minyl = int(round(l_uppery - ((26-l_dify)/2)))
-	maxyl = int(round(l_lowy + ((26-l_dify)/2)))
+	minxl = (leftEye[0][0] - ((34-lw)/2))
+	maxxl = (leftEye[3][0] + ((34-lw)/2)) 
+	minyl = (l_uppery - ((26-l_dify)/2))
+	maxyl = (l_lowy + ((26-l_dify)/2))
 	
 	# crop the eye rectangle from the frame
-	left_eye_rect = [minxl, minyl, maxxl, maxyl]
-	left_eye_image = gray[int(np.round(left_eye_rect[1])):left_eye_rect[3], int(left_eye_rect[0]):left_eye_rect[2]]
+	left_eye_rect = np.rint([minxl, minyl, maxxl, maxyl])
+	left_eye_rect = left_eye_rect.astype(int)
+	left_eye_image = gray[(left_eye_rect[1]):left_eye_rect[3], (left_eye_rect[0]):left_eye_rect[2]]
 	
 	# same as left eye at right eye
 	r_uppery = min(rightEye[1:3,1])
 	r_lowy = max(rightEye[4:,1])
 	r_dify = abs(r_uppery - r_lowy)
-	rw = int(round(rightEye[3][0] - rightEye[0][0]))
-	minxr = int(round(rightEye[0][0]-((34-rw)/2)))
-	maxxr = int(round(rightEye[3][0] + ((34-rw)/2)))
-	minyr = int(round(r_uppery - ((26-r_dify)/2)))
-	maxyr = int(round(r_lowy + ((26-r_dify)/2)))
-	right_eye_rect = [minxr, minyr, maxxr, maxyr]
+	rw = (rightEye[3][0] - rightEye[0][0])
+	minxr = (rightEye[0][0]-((34-rw)/2))
+	maxxr = (rightEye[3][0] + ((34-rw)/2))
+	minyr = (r_uppery - ((26-r_dify)/2))
+	maxyr = (r_lowy + ((26-r_dify)/2))
+	right_eye_rect = np.rint([minxr, minyr, maxxr, maxyr])
+	right_eye_rect = right_eye_rect.astype(int)
 	right_eye_image = gray[right_eye_rect[1]:right_eye_rect[3], right_eye_rect[0]:right_eye_rect[2]]
 
 	# if it doesn't detect left or right eye return None

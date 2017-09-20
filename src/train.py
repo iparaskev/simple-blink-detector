@@ -1,6 +1,5 @@
 import csv
 import numpy as np 
-import cv2
 import keras 
 from keras.preprocessing.image import ImageDataGenerator
 from keras.models import Sequential
