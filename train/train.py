@@ -3,7 +3,7 @@ import numpy as np
 import keras 
 from keras.preprocessing.image import ImageDataGenerator
 from keras.models import Sequential
-from keras.layers import Conv2D,BatchNormalization,Flatten,Dense,Activation,Dropout,MaxPooling2D
+from keras.layers import Conv2D,Flatten,Dense,Activation,Dropout,MaxPooling2D
 from keras.activations import relu
 from keras.optimizers import Adam
 
@@ -18,27 +18,27 @@ def readCsv(path):
 		reader = csv.DictReader(f)
 		rows = list(reader)
 
-		#imgs is a numpy array with all the images
-		#tgs is a numpy array with the tags of the images
-		imgs = np.empty((len(list(rows)),height,width,1),dtype=np.uint8)
-		tgs = np.empty((len(list(rows)),1))
+	#imgs is a numpy array with all the images
+	#tgs is a numpy array with the tags of the images
+	imgs = np.empty((len(list(rows)),height,width,1),dtype=np.uint8)
+	tgs = np.empty((len(list(rows)),1))
 		
-		for row,i in zip(rows,range(len(rows))):
+	for row,i in zip(rows,range(len(rows))):
 			
-			#convert the list back to the image format
-			img = row['image']
-			img = img.strip('[').strip(']').split(', ')
-			im = np.array(img,dtype=np.uint8)
-			im = im.reshape((26,34))
-			im = np.expand_dims(im, axis=2)
-			imgs[i] = im
+		#convert the list back to the image format
+		img = row['image']
+		img = img.strip('[').strip(']').split(', ')
+		im = np.array(img,dtype=np.uint8)
+		im = im.reshape((26,34))
+		im = np.expand_dims(im, axis=2)
+		imgs[i] = im
 
-			#the tag for open is 1 and for close is 0
-			tag = row['state']
-			if tag == 'open':
-				tgs[i] = 1
-			else:
-				tgs[i] = 0
+		#the tag for open is 1 and for close is 0
+		tag = row['state']
+		if tag == 'open':
+			tgs[i] = 1
+		else:
+			tgs[i] = 0
 	
 	#shuffle the dataset
 	index = np.random.permutation(imgs.shape[0])
