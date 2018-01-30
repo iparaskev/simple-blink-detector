@@ -7,9 +7,10 @@ from keras.layers import Conv2D,Flatten,Dense,Activation,Dropout,MaxPooling2D
 from keras.activations import relu
 from keras.optimizers import Adam
 
-#we will use images 26x34
+#we will use images 26x34x1 (1 is for grayscale images)
 height = 26
 width = 34
+dims = 1
 
 def readCsv(path):
 
@@ -20,7 +21,7 @@ def readCsv(path):
 
 	#imgs is a numpy array with all the images
 	#tgs is a numpy array with the tags of the images
-	imgs = np.empty((len(list(rows)),height,width,1),dtype=np.uint8)
+	imgs = np.empty((len(list(rows)),height,width, dims),dtype=np.uint8)
 	tgs = np.empty((len(list(rows)),1))
 		
 	for row,i in zip(rows,range(len(rows))):
@@ -46,13 +47,13 @@ def readCsv(path):
 	tgs = tgs[index]
 
 	#return images and their respective tags
-	return imgs,tgs
+	return imgs,tgs	
 
 #make the convolution neural network
 def makeModel():
 	model = Sequential()
 
-	model.add(Conv2D(32, (3,3), padding = 'same', input_shape=(height,width,1)))
+	model.add(Conv2D(32, (3,3), padding = 'same', input_shape=(height,width,dims)))
 	model.add(Activation('relu'))
 	model.add(MaxPooling2D(pool_size=(2,2)))
 	model.add(Conv2D(64, (2,2), padding= 'same'))
@@ -79,7 +80,7 @@ def makeModel():
 def main():
 
 	xTrain ,yTrain = readCsv('dataset.csv')
-	
+	print (xTrain.shape[0])
 	#scale the values of the images between 0 and 1
 	xTrain = xTrain.astype('float32')
 	xTrain /= 255
